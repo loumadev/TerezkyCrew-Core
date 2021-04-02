@@ -49,11 +49,6 @@ public class ParkourPlayer {
 		boolean isY = y > y1 && y < y2;
 		boolean isZ = z > z1 && z < z2;
 
-		// this.player.sendMessage("[x0: " + x + ", y0: " + y + ", x0: " + z + "]");
-		// this.player.sendMessage("[x1: " + x1 + ", y1: " + y1 + ", x1: " + z1 + "]");
-		// this.player.sendMessage("[x2: " + x2 + ", y2: " + y2 + ", x2: " + z2 + "]");
-		// this.player.sendMessage("[x: " + isX + ", y: " + isY + ", x: " + isZ + "]");
-
 		return isX && isY && isZ;
 	}
 

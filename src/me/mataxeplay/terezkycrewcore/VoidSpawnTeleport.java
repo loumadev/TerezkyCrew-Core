@@ -13,14 +13,11 @@ public class VoidSpawnTeleport implements Listener {
 
 	@EventHandler
 	public void onDamage(EntityDamageEvent event) {
-		// System.out.println("entity damage event: " + event.getEntity().getName());
 
 		if(!(event.getEntity() instanceof Player))
 			return;
 
 		Player player = (Player) event.getEntity();
-
-		// System.out.println("player damage event: " + player.getName());
 
 		if(event.getCause() == DamageCause.VOID && player.getWorld().getName().equals(plugin.getConfig().getString("spawn.world"))) {
 			// player.performCommand("spawn");
