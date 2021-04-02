@@ -17,9 +17,11 @@ parkour:
   location:
     start: 
       world: spawn
-      x: 0
-      y: 0
-      z: 0
+      x: 14.5
+      y: 99.0
+      z: -36.5
+      yaw: 90.0
+      pitch: 10.0
   region:
     pos1:
       x: 33.0
@@ -35,6 +37,7 @@ parkour:
   messages:
     join: "&aPřipojil jsi se do parkouru! Hodne štestí!"
     left: "&eOpustil jsi parkour!"
+    fall: "&eSpadl jsi!"
     not_joined: "&cNejsi připojen do parkouru!"
     finished: "&aDokončil jsi parkour v čase &e{time}&a!"
     already: "&cUž jsi připojen!"

@@ -5,6 +5,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -21,6 +22,7 @@ public class Parkour implements Listener {
 	private ArrayList<ParkourPlayer> pplayers = new ArrayList<ParkourPlayer>();
 	private int interval = -1;
 
+	private Location parkourStartPos;
 	private Location parkourRegionPos1;
 	private Location parkourRegionPos2;
 
@@ -68,8 +70,14 @@ public class Parkour implements Listener {
 		if(pplayer.isInRegion(parkourRegionPos1, parkourRegionPos2))
 			return;
 
-		this.removePlayer(player);
-		player.sendMessage(this.getMessage("left"));
+		if(pplayer.isInRegionY(parkourRegionPos1, parkourRegionPos2)) {
+			this.removePlayer(player);
+			player.sendMessage(this.getMessage("left"));
+		} else {
+			pplayer.reset();
+			player.teleport(this.parkourStartPos);
+			player.sendMessage(this.getMessage("fall"));
+		}
 	}
 
 	@EventHandler
@@ -136,8 +144,13 @@ public class Parkour implements Listener {
 
 	public void loadConfig() {
 		FileConfiguration config = plugin.getConfig();
-		World world = Bukkit.getWorld(config.getString("parkour.location.start.world"));
+		String world_name = config.getString("parkour.location.start.world");
 
+		// Load world
+		new WorldCreator(world_name).createWorld();
+		World world = Bukkit.getServer().getWorld(world_name);
+
+		this.parkourStartPos = new Location(world, config.getDouble("parkour.location.start.x"), config.getDouble("parkour.location.start.y"), config.getDouble("parkour.location.start.z"), (float) config.getDouble("parkour.location.start.yaw"), (float) config.getDouble("parkour.location.start.pitch"));
 		this.parkourRegionPos1 = new Location(world, config.getDouble("parkour.region.pos1.x"), config.getDouble("parkour.region.pos1.y"), config.getDouble("parkour.region.pos1.z"));
 		this.parkourRegionPos2 = new Location(world, config.getDouble("parkour.region.pos2.x"), config.getDouble("parkour.region.pos2.y"), config.getDouble("parkour.region.pos2.z"));
 	}

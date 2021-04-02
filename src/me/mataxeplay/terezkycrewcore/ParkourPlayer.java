@@ -11,6 +11,10 @@ public class ParkourPlayer {
 
 	public ParkourPlayer(Player player) {
 		this.player = player;
+		this.reset();
+	}
+
+	public void reset() {
 		this.timestamp = System.currentTimeMillis();
 	}
 
@@ -50,6 +54,16 @@ public class ParkourPlayer {
 		boolean isZ = z > z1 && z < z2;
 
 		return isX && isY && isZ;
+	}
+
+	public boolean isInRegionY(Location pos1, Location pos2) {
+		Location target = this.player.getLocation();
+		double y1 = Math.min(pos1.getY(), pos2.getY());
+		double y2 = Math.max(pos2.getY(), pos1.getY());
+		double y = target.getY();
+		boolean isY = y > y1 && y < y2;
+
+		return isY;
 	}
 
 	public void sendActionBar(String message) {
