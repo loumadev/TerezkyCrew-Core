@@ -1,0 +1,13 @@
+name: TerezkyCrew-Core
+author: MataxePlay
+version: 1.0
+api-version: 1.16
+main: me.mataxeplay.terezkycrewcore.Main
+description: Terezky Crew Core Plugin
+commands:
+  survival:
+    description: Teleports player to survival world.
+    usage: /<command>
+  tc:
+    description: Handles TerezkaCrew internal stuff
+    usage: /<command> reload

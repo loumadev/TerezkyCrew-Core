@@ -1,0 +1,41 @@
+messages:
+  survival:
+    already_in_world: "&cUž jsi ve survival světě!"
+    teleport: "&aByl jsi teleportován! Hodně štěstí!"
+  discord:
+    join: "&6Připoj se na náš Discord: &9https://discord.gg/2huTdH2a23"
+survival:
+  worlds:
+    - world
+    - world_nether
+    - world_the_end
+spawn:
+  world: "spawn"
+  npc:
+    survival: "villager_spawn_survival"
+parkour:
+  location:
+    start: 
+      world: spawn
+      x: 0
+      y: 0
+      z: 0
+  region:
+    pos1:
+      x: 33.0
+      y: 90.0
+      z: -18.0
+    pos2:
+      x: -40.0
+      y: 125.0
+      z: -55.0
+  npc:
+    start: "villager_parkour_start"
+    end: "villager_parkour_end"
+  messages:
+    join: "&aPřipojil jsi se do parkouru! Hodne štestí!"
+    left: "&eOpustil jsi parkour!"
+    not_joined: "&cNejsi připojen do parkouru!"
+    finished: "&aDokončil jsi parkour v čase &e{time}&a!"
+    already: "&cUž jsi připojen!"
+    actionbar: "&e&lČas: &6&l{time}"
