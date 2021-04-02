@@ -4,14 +4,48 @@ import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class ParkourPlayer {
 	private Player player;
 	private long timestamp;
+	private ItemStack[] inventory;
+	private ItemStack[] armor;
 
 	public ParkourPlayer(Player player) {
 		this.player = player;
 		this.reset();
+	}
+
+	public void saveInventory() {
+		inventory = player.getInventory().getContents();
+		armor = player.getInventory().getArmorContents();
+
+		this.clearInventory();
+		this.clearArmor();
+	}
+
+	public void restoreInventory() {
+		if(inventory != null)
+			player.getInventory().setContents(inventory);
+		else
+			this.clearInventory();
+
+		if(armor != null)
+			player.getInventory().setArmorContents(armor);
+		else
+			this.clearArmor();
+	}
+
+	private void clearInventory() {
+		player.getInventory().clear();
+	}
+
+	private void clearArmor() {
+		player.getInventory().setHelmet(null);
+		player.getInventory().setChestplate(null);
+		player.getInventory().setLeggings(null);
+		player.getInventory().setBoots(null);
 	}
 
 	public void reset() {

@@ -99,6 +99,7 @@ public class Parkour implements Listener {
 			return null;
 
 		ParkourPlayer pplayer = new ParkourPlayer(player);
+		pplayer.saveInventory();
 		pplayers.add(pplayer);
 
 		if(interval == -1) {
@@ -120,6 +121,7 @@ public class Parkour implements Listener {
 			return null;
 
 		ParkourPlayer pplayer = this.getParkourPlayer(player);
+		pplayer.restoreInventory();
 		pplayers.remove(pplayer);
 
 		if(pplayers.size() == 0) {
