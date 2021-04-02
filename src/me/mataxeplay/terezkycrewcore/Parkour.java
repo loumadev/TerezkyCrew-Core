@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -22,6 +23,7 @@ public class Parkour implements Listener {
 	private ArrayList<ParkourPlayer> pplayers = new ArrayList<ParkourPlayer>();
 	private int interval = -1;
 
+	private World parkourWorld;
 	private Location parkourStartPos;
 	private Location parkourRegionPos1;
 	private Location parkourRegionPos2;
@@ -50,9 +52,9 @@ public class Parkour implements Listener {
 
 			if(name.equals(config.getString("parkour.npc.end"))) {
 				ParkourPlayer removed = this.removePlayer(player);
-				if(removed != null) {
-					player.sendMessage(this.getMessage("finished").replace("{time}", removed.getDuration()));
-				} else
+				if(removed != null)
+					this.playerFinished(removed);
+				else
 					player.sendMessage(this.getMessage("not_joined"));
 			}
 
@@ -94,6 +96,22 @@ public class Parkour implements Listener {
 		this.removePlayer(player);
 	}
 
+	public void playerFinished(ParkourPlayer pplayer) {
+		Player player = pplayer.getPlayer();
+		String duration = pplayer.getDuration();
+		String broadcastMessage = this.getMessage("finished_others").replace("{player}", player.getDisplayName()).replace("{time}", duration);
+		FileConfiguration config = plugin.getConfig();
+
+		player.sendMessage(this.getMessage("finished").replace("{time}", duration));
+		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "eco give " + player.getName() + " " + config.getInt("parkour.reward"));
+		player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2f, 1f);
+
+		for(Player p : parkourWorld.getPlayers()) {
+			if(p != player)
+				p.sendMessage(broadcastMessage);
+		}
+	}
+
 	public ParkourPlayer addPlayer(Player player) {
 		if(this.isPlayerJoined(player))
 			return null;
@@ -101,6 +119,7 @@ public class Parkour implements Listener {
 		ParkourPlayer pplayer = new ParkourPlayer(player);
 		pplayer.saveInventory();
 		pplayers.add(pplayer);
+		player.setCollidable(false);
 
 		if(interval == -1) {
 			interval = Bukkit.getServer().getScheduler().scheduleSyncRepeatingTask(plugin, new Runnable() {
@@ -123,6 +142,7 @@ public class Parkour implements Listener {
 		ParkourPlayer pplayer = this.getParkourPlayer(player);
 		pplayer.restoreInventory();
 		pplayers.remove(pplayer);
+		player.setCollidable(true);
 
 		if(pplayers.size() == 0) {
 			Bukkit.getServer().getScheduler().cancelTask(interval);
@@ -152,6 +172,7 @@ public class Parkour implements Listener {
 		new WorldCreator(world_name).createWorld();
 		World world = Bukkit.getServer().getWorld(world_name);
 
+		this.parkourWorld = world;
 		this.parkourStartPos = new Location(world, config.getDouble("parkour.location.start.x"), config.getDouble("parkour.location.start.y"), config.getDouble("parkour.location.start.z"), (float) config.getDouble("parkour.location.start.yaw"), (float) config.getDouble("parkour.location.start.pitch"));
 		this.parkourRegionPos1 = new Location(world, config.getDouble("parkour.region.pos1.x"), config.getDouble("parkour.region.pos1.y"), config.getDouble("parkour.region.pos1.z"));
 		this.parkourRegionPos2 = new Location(world, config.getDouble("parkour.region.pos2.x"), config.getDouble("parkour.region.pos2.y"), config.getDouble("parkour.region.pos2.z"));

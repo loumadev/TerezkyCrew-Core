@@ -14,6 +14,7 @@ spawn:
   npc:
     survival: "villager_spawn_survival"
 parkour:
+  reward: 100
   location:
     start: 
       world: spawn
@@ -40,5 +41,6 @@ parkour:
     fall: "&eSpadl jsi!"
     not_joined: "&cNejsi připojen do parkouru!"
     finished: "&aDokončil jsi parkour v čase &e{time}&a!"
+    finished_others: "&6Hráč {player} &6dokončil parkour v čase &e{time}&6!"
     already: "&cUž jsi připojen!"
     actionbar: "&e&lČas: &6&l{time}"
