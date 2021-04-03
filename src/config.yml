@@ -23,6 +23,10 @@ parkour:
       z: -36.5
       yaw: 90.0
       pitch: 10.0
+    hologram:
+      x: 16.0
+      y: 102.0
+      z: -40.5
   region:
     pos1:
       x: 33.0
@@ -44,3 +48,4 @@ parkour:
     finished_others: "&6Hráč {player} &6dokončil parkour v čase &e{time}&6!"
     already: "&cUž jsi připojen!"
     actionbar: "&e&lČas: &6&l{time}"
+    hologram_top: "&c#{n}. &e{username} &6{time}"
