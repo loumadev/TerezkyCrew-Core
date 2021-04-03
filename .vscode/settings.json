@@ -1,5 +1,7 @@
 {
 	"java.project.referencedLibraries": [
-		"lib/*.jar"
-	]
+		"lib/**/*.jar",
+		"c:\\Users\\MusicManSK\\Desktop\\Java\\MCpluginMaker\\versions\\spigot-1.16.5.jar"
+	],
+	"java.project.exportJar.targetPath": "C:/Users/MusicManSK/Desktop/Projekty/Templates/MChosting/terezky-crew/plugins/${workspaceFolderBasename}.jar"
 }

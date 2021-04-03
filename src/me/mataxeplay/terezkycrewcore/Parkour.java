@@ -18,6 +18,7 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.Plugin;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
+import com.gmail.filoghost.holographicdisplays.api.line.TextLine;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 
 public class Parkour implements Listener {
@@ -34,7 +35,7 @@ public class Parkour implements Listener {
 		this.loadConfig();
 
 		Hologram hologram = HologramsAPI.createHologram(plugin, parkourStartPos);
-		// textLine = hologram.appendTextLine("A hologram line");
+		TextLine textLine = hologram.appendTextLine("A hologram line");
 	}
 
 	@EventHandler
