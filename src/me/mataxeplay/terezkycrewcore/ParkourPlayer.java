@@ -61,8 +61,8 @@ public class ParkourPlayer {
 		return this.timestamp;
 	}
 
-	public String getDuration() {
-		long delta = this.getDelta() + (long) (Math.random() * 10.0);
+	public String getDuration(boolean random) {
+		long delta = this.getDelta() + (long) (Math.random() * 10.0 * (random ? 1.0 : 0.0));
 
 		return ParkourPlayer.formatDuration(delta);
 	}

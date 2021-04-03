@@ -115,7 +115,7 @@ public class Parkour implements Listener {
 
 	public void playerFinished(ParkourPlayer pplayer) {
 		Player player = pplayer.getPlayer();
-		String duration = pplayer.getDuration();
+		String duration = pplayer.getDuration(false);
 		String broadcastMessage = this.getMessage("finished_others").replace("{player}", player.getDisplayName()).replace("{time}", duration);
 		FileConfiguration config = plugin.getConfig();
 
@@ -193,7 +193,7 @@ public class Parkour implements Listener {
 				@Override
 				public void run() {
 					for(ParkourPlayer pplayer : pplayers) {
-						pplayer.sendActionBar(getMessage("actionbar").replace("{time}", pplayer.getDuration()));
+						pplayer.sendActionBar(getMessage("actionbar").replace("{time}", pplayer.getDuration(true)));
 					}
 				}
 			}, 0L, 1L);
