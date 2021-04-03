@@ -8,7 +8,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class ParkourPlayer {
 	private Player player;
-	private long timestamp;
+	private long timestamp = -1;
+	private long finished = -1;
 	private ItemStack[] inventory;
 	private ItemStack[] armor;
 
@@ -61,7 +62,12 @@ public class ParkourPlayer {
 	}
 
 	public String getDuration() {
-		long delta = System.currentTimeMillis() - this.timestamp + (long) (Math.random() * 10.0);
+		long delta = this.getDelta() + (long) (Math.random() * 10.0);
+
+		return ParkourPlayer.formatDuration(delta);
+	}
+
+	static public String formatDuration(long delta) {
 		double ms = Math.floor((delta /= 1L) % 1000L);
 		double s = Math.floor((delta /= 1000L) % 60L);
 		double m = Math.floor((delta /= 60L));
@@ -98,6 +104,19 @@ public class ParkourPlayer {
 		boolean isY = y > y1 && y < y2;
 
 		return isY;
+	}
+
+	public boolean hasFinished() {
+		return finished != -1;
+	}
+
+	public long finished() {
+		return finished = System.currentTimeMillis();
+	}
+
+	public long getDelta() {
+		if(finished != -1) return finished - timestamp;
+		else return System.currentTimeMillis() - timestamp;
 	}
 
 	public void sendActionBar(String message) {

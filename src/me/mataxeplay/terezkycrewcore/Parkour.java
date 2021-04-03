@@ -126,7 +126,7 @@ public class Parkour implements Listener {
 		// Top records
 		ArrayList<HashMap<String, Object>> top = new ArrayList<HashMap<String, Object>>();
 		String playerName = player.getName();
-		long playerTime = pplayer.getTimestamp();
+		long playerTime = pplayer.getDelta();
 
 		// Load data
 		for(int i = 0; i < MAX_TOP; i++) {
@@ -237,7 +237,7 @@ public class Parkour implements Listener {
 			} else {
 				line = line
 					.replace("{username}", name)
-					.replace("{time}", "" + time);
+					.replace("{time}", ParkourPlayer.formatDuration(time));
 			}
 
 			parkourHologram.insertTextLine(i, line);
