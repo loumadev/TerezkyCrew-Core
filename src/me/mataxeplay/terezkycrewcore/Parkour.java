@@ -254,6 +254,24 @@ public class Parkour implements Listener {
 		return ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString("parkour.messages." + message));
 	}
 
+	public Location getLocation(String path) {
+		FileConfiguration config = plugin.getConfig();
+		World default_world = Bukkit.getWorld(config.getString("parkour.location.start.world"));
+
+		// Load values
+		World world = Bukkit.getWorld(config.getString(path + ".world"));
+		double x = config.getDouble(path + ".x");
+		double y = config.getDouble(path + ".y");
+		double z = config.getDouble(path + ".z");
+		float yaw = (float) config.getDouble(path + ".yaw");
+		float pitch = (float) config.getDouble(path + ".pitch");
+
+		// Default values
+		world = world != null ? world : default_world;
+
+		return new Location(world, x, y, z, yaw, pitch);
+	}
+
 	public void loadConfig() {
 		// Create Data folder
 		File folder = new File(plugin.getDataFolder(), "parkour");
@@ -274,14 +292,14 @@ public class Parkour implements Listener {
 
 		// Load world
 		new WorldCreator(world_name).createWorld();
-		World world = Bukkit.getServer().getWorld(world_name);
+		World world = Bukkit.getWorld(world_name);
 
 		// Assign variables
 		this.max_top = config.getInt("parkour.max_top");
 		this.parkourWorld = world;
-		this.parkourStartPos = new Location(world, config.getDouble("parkour.location.start.x"), config.getDouble("parkour.location.start.y"), config.getDouble("parkour.location.start.z"), (float) config.getDouble("parkour.location.start.yaw"), (float) config.getDouble("parkour.location.start.pitch"));
-		this.parkourHologramPos = new Location(world, config.getDouble("parkour.location.hologram.x"), config.getDouble("parkour.location.hologram.y"), config.getDouble("parkour.location.hologram.z"));
-		this.parkourRegionPos1 = new Location(world, config.getDouble("parkour.region.pos1.x"), config.getDouble("parkour.region.pos1.y"), config.getDouble("parkour.region.pos1.z"));
-		this.parkourRegionPos2 = new Location(world, config.getDouble("parkour.region.pos2.x"), config.getDouble("parkour.region.pos2.y"), config.getDouble("parkour.region.pos2.z"));
+		this.parkourStartPos = this.getLocation("parkour.location.start");
+		this.parkourHologramPos = this.getLocation("parkour.location.hologram");
+		this.parkourRegionPos1 = this.getLocation("parkour.region.pos1");
+		this.parkourRegionPos2 = this.getLocation("parkour.region.pos2");
 	}
 }
