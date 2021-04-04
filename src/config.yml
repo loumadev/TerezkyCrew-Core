@@ -35,7 +35,7 @@ parkour:
       z: -18.0
     pos2:
       x: -40.0
-      y: 125.0
+      y: 128.0
       z: -55.0
   npc:
     start: "villager_parkour_start"
@@ -43,7 +43,7 @@ parkour:
   messages:
     join: "&aPřipojil jsi se do parkouru! Hodne štestí!"
     left: "&eOpustil jsi parkour!"
-    fall: "&eSpadl jsi!"
+    fall: ""
     not_joined: "&cNejsi připojen do parkouru!"
     finished: "&aDokončil jsi parkour v čase &e{time}&a!"
     finished_others: "&6Hráč {player} &6dokončil parkour v čase &e{time}&6!"

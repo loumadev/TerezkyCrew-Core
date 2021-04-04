@@ -88,7 +88,9 @@ public class Parkour implements Listener {
 		} else {
 			pplayer.reset();
 			player.teleport(this.parkourStartPos);
-			player.sendMessage(this.getMessage("fall"));
+
+			String msg = this.getMessage("fall");
+			if(msg.length() > 0) player.sendMessage(msg);
 		}
 	}
 
@@ -248,18 +250,15 @@ public class Parkour implements Listener {
 
 	public Location getLocation(String path) {
 		FileConfiguration config = plugin.getConfig();
-		World default_world = Bukkit.getWorld(config.getString("parkour.location.start.world"));
 
 		// Load values
-		World world = Bukkit.getWorld(config.getString(path + ".world"));
+		String world_name = config.getString(path + ".world");
+		World world = Bukkit.getWorld(world_name != null ? world_name : config.getString("parkour.location.start.world"));
 		double x = config.getDouble(path + ".x");
 		double y = config.getDouble(path + ".y");
 		double z = config.getDouble(path + ".z");
 		float yaw = (float) config.getDouble(path + ".yaw");
 		float pitch = (float) config.getDouble(path + ".pitch");
-
-		// Default values
-		world = world != null ? world : default_world;
 
 		return new Location(world, x, y, z, yaw, pitch);
 	}
