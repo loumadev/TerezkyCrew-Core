@@ -14,6 +14,7 @@ spawn:
   npc:
     survival: "villager_spawn_survival"
 parkour:
+  max_top: 5
   reward: 100
   location:
     start: 

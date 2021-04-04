@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -27,8 +26,6 @@ import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
 
 public class Parkour implements Listener {
-	static final int MAX_TOP = 5;
-
 	private Plugin plugin = Main.getPlugin(Main.class);
 	private ArrayList<ParkourPlayer> pplayers = new ArrayList<ParkourPlayer>();
 	private int interval = -1;
@@ -41,6 +38,7 @@ public class Parkour implements Listener {
 	private Hologram parkourHologram;
 	private FileConfiguration parkourData;
 	private File dataFile;
+	private int max_top;
 
 	public Parkour() {
 		this.loadConfig();
@@ -129,7 +127,7 @@ public class Parkour implements Listener {
 		long playerTime = pplayer.getDelta();
 
 		// Load data
-		for(int i = 0; i < MAX_TOP; i++) {
+		for(int i = 0; i < max_top; i++) {
 			String position = "top." + (i + 1) + ".";
 			String name = parkourData.getString(position + "name");
 			long time = parkourData.getLong(position + "time");
@@ -156,8 +154,8 @@ public class Parkour implements Listener {
 		HashSet<Object> seen = new HashSet<>();
 		top.removeIf(e -> !seen.add(e.get("name")));
 
-		// Save top `MAX_TOP`
-		for(int i = 0; i < Math.min(MAX_TOP, top.size()); i++) {
+		// Save top `max_top`
+		for(int i = 0; i < Math.min(max_top, top.size()); i++) {
 			String position = "top." + (i + 1) + ".";
 			parkourData.set(position + "name", top.get(i).get("name"));
 			parkourData.set(position + "time", top.get(i).get("time"));
@@ -222,7 +220,7 @@ public class Parkour implements Listener {
 	public void updateHologram() {
 		parkourHologram.clearLines();
 
-		for(int i = 0; i < MAX_TOP; i++) {
+		for(int i = 0; i < max_top; i++) {
 			String position = "top." + (i + 1) + ".";
 			String name = parkourData.getString(position + "name");
 			long time = parkourData.getLong(position + "time");
@@ -279,6 +277,7 @@ public class Parkour implements Listener {
 		World world = Bukkit.getServer().getWorld(world_name);
 
 		// Assign variables
+		this.max_top = config.getInt("parkour.max_top");
 		this.parkourWorld = world;
 		this.parkourStartPos = new Location(world, config.getDouble("parkour.location.start.x"), config.getDouble("parkour.location.start.y"), config.getDouble("parkour.location.start.z"), (float) config.getDouble("parkour.location.start.yaw"), (float) config.getDouble("parkour.location.start.pitch"));
 		this.parkourHologramPos = new Location(world, config.getDouble("parkour.location.hologram.x"), config.getDouble("parkour.location.hologram.y"), config.getDouble("parkour.location.hologram.z"));
