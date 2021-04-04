@@ -56,21 +56,18 @@ public class Parkour implements Listener {
 		FileConfiguration config = plugin.getConfig();
 
 		if(isNPC) {
-
 			if(name.equals(config.getString("parkour.npc.start"))) {
 				ParkourPlayer added = this.addPlayer(player);
-				if(added != null)
-					player.sendMessage(this.getMessage("join"));
-				else
-					player.sendMessage(this.getMessage("already"));
+
+				if(added != null) player.sendMessage(this.getMessage("join"));
+				else player.sendMessage(this.getMessage("already"));
 			}
 
 			if(name.equals(config.getString("parkour.npc.end"))) {
 				ParkourPlayer removed = this.removePlayer(player);
-				if(removed != null)
-					this.playerFinished(removed);
-				else
-					player.sendMessage(this.getMessage("not_joined"));
+
+				if(removed != null) this.playerFinished(removed);
+				else player.sendMessage(this.getMessage("not_joined"));
 			}
 
 			event.setCancelled(true);
@@ -82,10 +79,8 @@ public class Parkour implements Listener {
 		Player player = event.getPlayer();
 		ParkourPlayer pplayer = this.getParkourPlayer(player);
 
-		if(pplayer == null)
-			return;
-		if(pplayer.isInRegion(parkourRegionPos1, parkourRegionPos2))
-			return;
+		if(pplayer == null) return;
+		if(pplayer.isInRegion(parkourRegionPos1, parkourRegionPos2)) return;
 
 		if(pplayer.isInRegionY(parkourRegionPos1, parkourRegionPos2)) {
 			this.removePlayer(player);
@@ -172,14 +167,12 @@ public class Parkour implements Listener {
 		this.updateHologram();
 
 		for(Player p : parkourWorld.getPlayers()) {
-			if(p != player)
-				p.sendMessage(broadcastMessage);
+			if(p != player) p.sendMessage(broadcastMessage);
 		}
 	}
 
 	public ParkourPlayer addPlayer(Player player) {
-		if(this.isPlayerJoined(player))
-			return null;
+		if(this.isPlayerJoined(player)) return null;
 
 		ParkourPlayer pplayer = new ParkourPlayer(player);
 		pplayer.saveInventory();
@@ -201,8 +194,7 @@ public class Parkour implements Listener {
 	}
 
 	public ParkourPlayer removePlayer(Player player) {
-		if(!this.isPlayerJoined(player))
-			return null;
+		if(!this.isPlayerJoined(player)) return null;
 
 		ParkourPlayer pplayer = this.getParkourPlayer(player);
 		pplayer.restoreInventory();

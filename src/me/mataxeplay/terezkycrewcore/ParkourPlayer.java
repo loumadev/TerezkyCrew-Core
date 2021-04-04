@@ -27,15 +27,11 @@ public class ParkourPlayer {
 	}
 
 	public void restoreInventory() {
-		if(inventory != null)
-			player.getInventory().setContents(inventory);
-		else
-			this.clearInventory();
+		if(inventory != null) player.getInventory().setContents(inventory);
+		else this.clearInventory();
 
-		if(armor != null)
-			player.getInventory().setArmorContents(armor);
-		else
-			this.clearArmor();
+		if(armor != null) player.getInventory().setArmorContents(armor);
+		else this.clearArmor();
 	}
 
 	private void clearInventory() {

@@ -109,8 +109,7 @@ public class Main extends JavaPlugin implements Listener {
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-		if(!command.getName().toLowerCase().equals("tc"))
-			return false;
+		if(!command.getName().toLowerCase().equals("tc")) return false;
 
 		if(args.length != 0 && args[0].equals("reload") && sender.hasPermission("tc.config.reload")) {
 			reloadConfig();
