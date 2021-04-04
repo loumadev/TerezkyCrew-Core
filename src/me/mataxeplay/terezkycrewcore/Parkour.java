@@ -32,6 +32,7 @@ public class Parkour implements Listener {
 
 	private World parkourWorld;
 	private Location parkourStartPos;
+	private Location parkourFinishPos;
 	private Location parkourHologramPos;
 	private Location parkourRegionPos1;
 	private Location parkourRegionPos2;
@@ -59,15 +60,25 @@ public class Parkour implements Listener {
 			if(name.equals(config.getString("parkour.npc.start"))) {
 				ParkourPlayer added = this.addPlayer(player);
 
-				if(added != null) player.sendMessage(this.getMessage("join"));
-				else player.sendMessage(this.getMessage("already"));
+				if(added != null) {
+					player.sendMessage(this.getMessage("join"));
+					player.playSound(entity.getLocation(), Sound.ENTITY_VILLAGER_TRADE, 2f, 1f);
+				} else {
+					player.sendMessage(this.getMessage("already"));
+					player.playSound(entity.getLocation(), Sound.ENTITY_VILLAGER_NO, 2f, 1f);
+				}
 			}
 
 			if(name.equals(config.getString("parkour.npc.end"))) {
 				ParkourPlayer removed = this.removePlayer(player);
 
-				if(removed != null) this.playerFinished(removed);
-				else player.sendMessage(this.getMessage("not_joined"));
+				if(removed != null) {
+					this.playerFinished(removed);
+					player.playSound(entity.getLocation(), Sound.ENTITY_VILLAGER_YES, 2f, 1f);
+				} else {
+					player.sendMessage(this.getMessage("not_joined"));
+					player.playSound(entity.getLocation(), Sound.ENTITY_VILLAGER_NO, 2f, 1f);
+				}
 			}
 
 			event.setCancelled(true);
@@ -110,13 +121,26 @@ public class Parkour implements Listener {
 
 	public void playerFinished(ParkourPlayer pplayer) {
 		Player player = pplayer.getPlayer();
-		String duration = pplayer.getDuration(false);
-		String broadcastMessage = this.getMessage("finished_others").replace("{player}", player.getDisplayName()).replace("{time}", duration);
 		FileConfiguration config = plugin.getConfig();
 
+		pplayer.finished();
+
+		String duration = pplayer.getDuration(false);
+		String broadcastMessage = this.getMessage("finished_others").replace("{player}", player.getDisplayName()).replace("{time}", duration);
+
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
+			@Override
+			public void run() {
+				player.teleport(parkourFinishPos);
+				player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2f, 1f);
+				Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "eco give " + player.getName() + " " + config.getInt("parkour.reward"));
+			}
+		}, 20L * 3);
+
 		player.sendMessage(this.getMessage("finished").replace("{time}", duration));
-		Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "eco give " + player.getName() + " " + config.getInt("parkour.reward"));
-		player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 2f, 1f);
+		for(Player p : parkourWorld.getPlayers()) {
+			if(p != player) p.sendMessage(broadcastMessage);
+		}
 
 		// Top records
 		ArrayList<HashMap<String, Object>> top = new ArrayList<HashMap<String, Object>>();
@@ -167,10 +191,6 @@ public class Parkour implements Listener {
 
 		// Update hologram
 		this.updateHologram();
-
-		for(Player p : parkourWorld.getPlayers()) {
-			if(p != player) p.sendMessage(broadcastMessage);
-		}
 	}
 
 	public ParkourPlayer addPlayer(Player player) {
@@ -289,6 +309,7 @@ public class Parkour implements Listener {
 		this.max_top = config.getInt("parkour.max_top");
 		this.parkourWorld = world;
 		this.parkourStartPos = this.getLocation("parkour.location.start");
+		this.parkourFinishPos = this.getLocation("parkour.location.finish");
 		this.parkourHologramPos = this.getLocation("parkour.location.hologram");
 		this.parkourRegionPos1 = this.getLocation("parkour.region.pos1");
 		this.parkourRegionPos2 = this.getLocation("parkour.region.pos2");

@@ -24,6 +24,13 @@ parkour:
       z: -36.5
       yaw: 90.0
       pitch: 10.0
+    finish:
+      world: spawn
+      x: 23.0
+      y: 101.0
+      z: -40.0
+      yaw: 65.5
+      pitch: 10.0
     hologram:
       x: 16.0
       y: 102.0
