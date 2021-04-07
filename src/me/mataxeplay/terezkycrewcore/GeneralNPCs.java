@@ -16,13 +16,13 @@ public class GeneralNPCs implements Listener {
 	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		Entity entity = event.getRightClicked();
-		String name = entity.getName();
+		String uuid = entity.getUniqueId().toString();
 		boolean isNPC = entity.hasMetadata("NPC");
 		FileConfiguration config = plugin.getConfig();
 
 		if(isNPC) {
 
-			if(name.equals(config.getString("spawn.npc.survival"))) {
+			if(uuid.equals(config.getString("spawn.npc.survival"))) {
 				player.performCommand("survival");
 			}
 

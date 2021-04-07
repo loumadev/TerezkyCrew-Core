@@ -21,6 +21,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import com.gmail.filoghost.holographicdisplays.api.HologramsAPI;
 import com.gmail.filoghost.holographicdisplays.api.Hologram;
@@ -52,12 +53,12 @@ public class Parkour implements Listener {
 	public void onPlayerInteractEntityEvent(PlayerInteractEntityEvent event) {
 		Player player = event.getPlayer();
 		Entity entity = event.getRightClicked();
-		String name = entity.getName();
+		String uuid = entity.getUniqueId().toString();
 		boolean isNPC = entity.hasMetadata("NPC");
 		FileConfiguration config = plugin.getConfig();
 
 		if(isNPC) {
-			if(name.equals(config.getString("parkour.npc.start"))) {
+			if(uuid.equals(config.getString("parkour.npc.start"))) {
 				ParkourPlayer added = this.addPlayer(player);
 
 				if(added != null) {
@@ -69,7 +70,7 @@ public class Parkour implements Listener {
 				}
 			}
 
-			if(name.equals(config.getString("parkour.npc.end"))) {
+			if(uuid.equals(config.getString("parkour.npc.end"))) {
 				ParkourPlayer removed = this.removePlayer(player);
 
 				if(removed != null) {

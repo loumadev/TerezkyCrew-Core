@@ -12,7 +12,7 @@ survival:
 spawn:
   world: "spawn"
   npc:
-    survival: "villager_spawn_survival"
+    survival: "cb86ae2e-17ac-41f2-9cb1-2706ce668ef8"
 parkour:
   max_top: 5
   reward: 100
@@ -45,8 +45,8 @@ parkour:
       y: 128.0
       z: -55.0
   npc:
-    start: "villager_parkour_start"
-    end: "villager_parkour_end"
+    start: "830ce47a-7cfd-4877-860b-1e311cef6174"
+    end: "a1002c35-3bdc-482a-a84e-ca35ade41b96"
   messages:
     join: "&aPřipojil jsi se do parkouru! Hodne štestí!"
     left: "&eOpustil jsi parkour!"
